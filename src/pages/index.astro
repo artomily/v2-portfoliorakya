@@ -1,0 +1,348 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+import Profile from '../components/Profile.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import type { Project } from '../data/projects';
+import type { Certificate } from '../data/certificates';
+
+// Import data
+const projects: Project[] = (await import('../data/projects')).projects;
+const certificates: Certificate[] = (await import('../data/certificates')).certificates;
+---
+
+<Layout title="Portfolio - Rakya">
+  <main class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-6">
+    <!-- Main Portfolio Card -->
+    <Card className="w-full max-w-6xl h-[90vh] grid grid-cols-12 gap-0">
+      
+      <!-- Left Sidebar - Profile -->
+      <aside class="col-span-4 bg-gradient-to-br from-primary-600 to-primary-800">
+        <Profile />
+      </aside>
+      
+      <!-- Right Content Area -->
+      <div class="col-span-8 flex flex-col">
+        
+        <!-- Navigation -->
+        <header class="border-b border-slate-200">
+          <Navbar />
+        </header>
+        
+        <!-- Content Area -->
+        <div class="flex-1 overflow-y-auto custom-scroll">
+          
+          <!-- Home Section -->
+          <section id="home" class="content-section active p-8">
+            <div class="text-center py-12">
+              <h1 class="text-4xl font-bold text-slate-800 mb-4">
+                Selamat Datang di Portfolio Saya
+              </h1>
+              <p class="text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl mx-auto">
+                Saya adalah seorang developer yang berfokus pada pengembangan web modern 
+                dengan teknologi terkini. Mari jelajahi karya-karya dan pencapaian saya.
+              </p>
+              <div class="grid grid-cols-3 gap-6 max-w-lg mx-auto">
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-primary-600">{projects.length}+</div>
+                  <div class="text-slate-600">Projects</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-primary-600">{certificates.length}+</div>
+                  <div class="text-slate-600">Certificates</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-primary-600">2+</div>
+                  <div class="text-slate-600">Years Experience</div>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Projects Section -->
+          <section id="projects" class="content-section hidden p-8">
+            <h2 class="text-3xl font-bold text-slate-800 mb-8 text-center">My Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {projects.map((project) => (
+                <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-slate-200">
+                  <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-slate-800">{project.title}</h3>
+                    {project.featured && (
+                      <span class="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  <p class="text-slate-600 mb-4">{project.description}</p>
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.map((tech) => (
+                      <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-sm">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <div class="flex space-x-4">
+                    {project.demoUrl && (
+                      <a 
+                        href={project.demoUrl} 
+                        target="_blank" 
+                        class="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium"
+                      >
+                        View Demo
+                        <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                      </a>
+                    )}
+                    {project.githubUrl && (
+                      <a 
+                        href={project.githubUrl} 
+                        target="_blank" 
+                        class="inline-flex items-center text-slate-600 hover:text-slate-700 font-medium"
+                      >
+                        GitHub
+                        <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+          
+          <!-- Certificates Section -->
+          <section id="certificates" class="content-section hidden p-8">
+            <h2 class="text-3xl font-bold text-slate-800 mb-8 text-center">Certificates & Achievements</h2>
+            <div class="space-y-4">
+              {certificates.map((cert) => (
+                <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-slate-200">
+                  <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                      <h3 class="text-xl font-semibold text-slate-800 mb-2">{cert.title}</h3>
+                      <p class="text-primary-600 font-medium mb-2">{cert.issuer}</p>
+                      <p class="text-slate-600 mb-2">{cert.description}</p>
+                      <div class="flex items-center text-sm text-slate-500 mb-3">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m6 2a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4H6z"></path>
+                        </svg>
+                        {cert.issueDate}
+                      </div>
+                      <div class="flex flex-wrap gap-2">
+                        {cert.skills.map((skill) => (
+                          <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-sm">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    {cert.verificationUrl && (
+                      <a 
+                        href={cert.verificationUrl} 
+                        target="_blank" 
+                        class="ml-4 inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium"
+                      >
+                        View Credential
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+          
+          <!-- Contact Section -->
+          <section id="contact" class="content-section hidden p-8">
+            <h2 class="text-3xl font-bold text-slate-800 mb-8 text-center">Get In Touch</h2>
+            <div class="max-w-2xl mx-auto">
+              
+              <!-- Contact Info -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                  <div class="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 7.89a1 1 0 001.42 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-lg font-semibold text-slate-800 mb-2">Email</h3>
+                  <p class="text-slate-600">rakya@example.com</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                  <div class="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-lg font-semibold text-slate-800 mb-2">Phone</h3>
+                  <p class="text-slate-600">+62 812 3456 7890</p>
+                </div>
+              </div>
+              
+              <!-- Contact Form -->
+              <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold text-slate-800 mb-6">Send me a message</h3>
+                <form class="space-y-4" id="contact-form">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input 
+                      type="text" 
+                      placeholder="Your Name" 
+                      class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all"
+                      required
+                    />
+                    <input 
+                      type="email" 
+                      placeholder="Your Email" 
+                      class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all"
+                      required
+                    />
+                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="Subject" 
+                    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all"
+                    required
+                  />
+                  <textarea 
+                    placeholder="Your Message" 
+                    rows="5"
+                    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all resize-none"
+                    required
+                  ></textarea>
+                  <button 
+                    type="submit" 
+                    class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                  >
+                    Send Message
+                  </button>
+                </form>
+              </div>
+              
+            </div>
+          </section>
+          
+        </div>
+        
+        <!-- Footer -->
+        <footer class="border-t border-slate-200">
+          <Footer />
+        </footer>
+        
+      </div>
+    </Card>
+  </main>
+</Layout>
+
+<style>
+  /* Custom scrollbar styling */
+  .custom-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .custom-scroll::-webkit-scrollbar-track {
+    background: #f8fafc;
+    border-radius: 3px;
+  }
+  
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+  }
+  
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+  
+  /* Content sections */
+  .content-section {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .content-section.hidden {
+    display: none;
+  }
+  
+  .content-section.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Firefox scrollbar */
+  .custom-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f8fafc;
+  }
+  
+  /* Form focus effects */
+  input:focus, textarea:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+</style>
+
+<script>
+  // Content switching functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const navButtons = document.querySelectorAll('[data-target]');
+    const contentSections = document.querySelectorAll('.content-section');
+    
+    navButtons.forEach((button: any) => {
+      button.addEventListener('click', function() {
+        const target = this.getAttribute('data-target');
+        
+        // Hide all sections
+        contentSections.forEach((section: any) => {
+          section.classList.remove('active');
+          section.classList.add('hidden');
+        });
+        
+        // Show target section
+        const targetSection = document.getElementById(target);
+        if (targetSection) {
+          targetSection.classList.remove('hidden');
+          targetSection.classList.add('active');
+        }
+        
+        // Update active button
+        navButtons.forEach((btn: any) => {
+          btn.classList.remove('bg-primary-600', 'text-white');
+          btn.classList.add('text-slate-600', 'hover:text-primary-600', 'hover:bg-slate-100');
+        });
+        
+        this.classList.remove('text-slate-600', 'hover:text-primary-600', 'hover:bg-slate-100');
+        this.classList.add('bg-primary-600', 'text-white');
+      });
+    });
+    
+    // Set initial active button (home)
+    const homeButton = document.querySelector('[data-target="home"]');
+    if (homeButton) {
+      (homeButton as any).classList.add('bg-primary-600', 'text-white');
+      (homeButton as any).classList.remove('text-slate-600', 'hover:text-primary-600', 'hover:bg-slate-100');
+    }
+  });
+  
+  // Contact form handling
+  const contactForm = document.getElementById('contact-form') as HTMLFormElement;
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Pesan telah dikirim! (Demo purposes only)');
+    });
+  }
+</script>
